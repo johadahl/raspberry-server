@@ -1,20 +1,19 @@
-FROM python:3.7-alpine
-LABEL author=gsc2001 version=1.0
+# https://github.com/tiangolo/uvicorn-gunicorn-fastapi-docker
 
-RUN pip3 install pip-tools \
-    && apk add --update build-base \ 
-    libxml2-dev libxslt-dev \
-    libffi-dev openssl-dev \
-    && rm -rf /var/cache/apk/*
+FROM python:3.9-slim-bullseye
 
-WORKDIR /app
-COPY requirements.in  .
-RUN pip-compile requirements.in > requirements.txt \
-    && pip3 install -r requirements.txt
+# set environment variables
+ENV PYTHONWRITEBYTECODE 1
+ENV PYTHONBUFFERED 1
 
+# set working directory
+WORKDIR /code
 
-COPY . /app
-EXPOSE 5000
-# If running alone (when you dont want /api prefix) remove "--root-path" and "/api" from below command  
-ENTRYPOINT ["uvicorn", "--host", "0.0.0.0", "--port", "5000", "--reload", "main:app", "--root-path", "/api"]
+# copy dependencies
+COPY requirements.txt /code/
 
+# install dependencies
+RUN pip install -r requirements.txt
+
+# copy project
+COPY . /code/
