@@ -36,7 +36,7 @@ or if you want to run the application locally, without using Docker, then:
 python3.9 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt && pip install -r requirements-dev.txt
-uvicorn app.main:app --port 5000 --reload
+uvicorn app.main:app --port 5001 --reload
 ```
 
 ### Check the APIs
@@ -44,7 +44,7 @@ uvicorn app.main:app --port 5000 --reload
 - To play around with the APIs, go to the following link on your browser:
 
   ```
-  http://localhost:5000/docs
+  http://localhost:5001/docs
   ```
 
 - Press the `authorize` button on the right and add _username_ and _password_. The APIs use OAuth2 (with hashed password and Bearer with JWT) based authentication. In this case, the username and password is `ubuntu` and `debian` respectively.
