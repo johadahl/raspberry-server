@@ -187,9 +187,11 @@
           Vue.component("alarm-view", {
             data: () => {
               return {
-                xApiKey: "",
-                currentSetTime: "09:00",
-                isAlarmOn: true,
+                loading: false, // TODO; disable input while loading
+                config: {
+                  currentSetTime: "--:--",
+                  isAlarmOn: false,
+                },
                 toggleAlarm: [
                   {
                     text: "On",
@@ -202,22 +204,81 @@
                 ],
               };
             },
-            props: [],
-            methods: {},
+            created: async () => {
+              this.loading = true;
+              this.config = await apiFetchCurrentState();
+              this.loading = false;
+            },
+            methods: {
+              handleSave: () => {
+                console.log("SAVE", config);
+                this.loading = true;
+                // try {
+                //   await apiSetNewState({
+                //     time: currentSetTime,
+                //     isAlarmOn,
+                //   });
+                // } catch (e) {
+                //   console.error(e)
+                // }
+                this.loading = false;
+              },
+            },
             template: `
             <div>
-              <b-form-timepicker v-model="currentSetTime" locale="en"></b-form-timepicker>
-              <b-form-group>
-                <b-form-radio-group
-                  id="alarm-toggle"
-                  v-model="isAlarmOn"
-                  :options="toggleAlarm"
-                  name="radio-btn-outline"
-                  buttons
-                  button-variant="outline-primary"
-                ></b-form-radio-group>
-              </b-form-group>
-              <b-button>Save</b-button>
+              <b-container fluid>
+                <b-row>
+                  <b-col>
+                    <b-form-timepicker v-model="config.currentSetTime" locale="en"></b-form-timepicker>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <b-form-group>
+                      <b-form-radio-group
+                        id="alarm-toggle"
+                        v-model="config.isAlarmOn"
+                        :options="toggleAlarm"
+                        name="radio-btn-outline"
+                        buttons
+                        button-variant="outline-primary">
+                      </b-form-radio-group>
+                    </b-form-group>
+                  </b-col>
+                  <b-col>
+                    <b-button @click="handleSave()">Save</b-button>
+                  </b-col>
+                </b-row>
+              </b-container>
+            </div>`,
+          });
+
+          Vue.component("login-view", {
+            data: () => {
+              return {
+                xApiKey: "",
+              };
+            },
+            mounted: () => {
+              this.xApiKey = __alarmClockApiKey;
+            },
+            watch: {
+              xApiKey: (val) => {
+                storeAlarmClockKey(val);
+              },
+            },
+
+            template: `
+            <div>
+              <b-container fluid>
+                <b-row>
+                  <b-col>
+                    <b-input-group prepend="Password" class="mt-3">
+                      <b-form-input v-model="xApiKey" placeholder="Enter API key here"></b-form-input>
+                    </b-input-group>
+                  </b-col>
+                </b-row>
+              </b-container>
             </div>`,
           });
 
@@ -227,6 +288,13 @@
               path: "/alarm",
               component: {
                 template: "<alarm-view></alarm-view>",
+              },
+            },
+            {
+              title: "Login",
+              path: "/login",
+              component: {
+                template: "<login-view></login-view>",
               },
             },
           ];

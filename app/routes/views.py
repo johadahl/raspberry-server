@@ -3,28 +3,26 @@ import os
 
 from fastapi import APIRouter, Depends, Request, Response
 
-from app.apis.api_a.mainmod import main_func as main_func_a
-from app.apis.api_b.mainmod import main_func as main_func_b
+from app.apis.alarm.get_config import get_config
+from app.apis.alarm.set_config import set_config
 from app.core.auth import get_current_user
 
 router = APIRouter()
 
 admin_html = os.path.join(os.path.dirname(__file__), 'templates', 'admin.html')
 
-@router.get("/api_a/{num}", tags=["api_a"])
-async def view_a(
-    num: int,
-    auth: Depends = Depends(get_current_user),
+@router.get("/v1/alarm/", tags=["alarm"])
+async def get_alarm_config(
+    # auth: Depends = Depends(get_current_user),    // TODO: fix auth flow
 ) -> dict[str, int]:
-    return main_func_a(num)
+    return get_config()
 
-
-@router.get("/api_b/{num}", tags=["api_b"])
-async def view_b(
-    num: int,
-    auth: Depends = Depends(get_current_user),
+@router.post("/v1/alarm/", tags=["alarm"])
+async def set_alarm_config(
+    # auth: Depends = Depends(get_current_user),    // TODO: fix auth flow
 ) -> dict[str, int]:
-    return main_func_b(num)
+    return set_config()
+
 
 @router.get(
     path='/',
