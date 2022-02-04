@@ -185,13 +185,10 @@
           );
 
           Vue.component("alarm-view", {
-            data: () => {
+            data() {
               return {
                 loading: false, // TODO; disable input while loading
-                config: {
-                  currentSetTime: "--:--",
-                  isAlarmOn: false,
-                },
+                config: {},
                 toggleAlarm: [
                   {
                     text: "On",
@@ -204,23 +201,22 @@
                 ],
               };
             },
-            created: async () => {
+            async created() {
               this.loading = true;
               this.config = await apiFetchCurrentState();
               this.loading = false;
             },
             methods: {
-              handleSave: () => {
-                console.log("SAVE", config);
+              async handleSave() {
                 this.loading = true;
-                // try {
-                //   await apiSetNewState({
-                //     time: currentSetTime,
-                //     isAlarmOn,
-                //   });
-                // } catch (e) {
-                //   console.error(e)
-                // }
+                try {
+                  await apiSetNewState({
+                    time: this.config.currentSetTime,
+                    active: this.config.isAlarmOn,
+                  });
+                } catch (e) {
+                  console.error(e);
+                }
                 this.loading = false;
               },
             },
@@ -246,7 +242,7 @@
                     </b-form-group>
                   </b-col>
                   <b-col>
-                    <b-button @click="handleSave()">Save</b-button>
+                    <b-button @click="handleSave">Save</b-button>
                   </b-col>
                 </b-row>
               </b-container>
@@ -254,12 +250,12 @@
           });
 
           Vue.component("login-view", {
-            data: () => {
+            data() {
               return {
                 xApiKey: "",
               };
             },
-            mounted: () => {
+            mounted() {
               this.xApiKey = __alarmClockApiKey;
             },
             watch: {
@@ -267,7 +263,6 @@
                 storeAlarmClockKey(val);
               },
             },
-
             template: `
             <div>
               <b-container fluid>
