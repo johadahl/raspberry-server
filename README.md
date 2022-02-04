@@ -66,7 +66,6 @@ uvicorn app.main:app --port 5001 --reload
 
 ## Resources
 
-- [Flask divisional folder structure](https://exploreflask.com/en/latest/blueprints.html#divisional)
 - [Deploying APIs built with FastAPI](https://fastapi.tiangolo.com/deployment/)
 - [Reverse proxying with Caddy](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy)
 - [Dockerised Flask app template](https://github.com/rednafi/fastapi-nano)

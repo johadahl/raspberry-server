@@ -2,10 +2,8 @@ from __future__ import annotations
 
 import os
 
-from fastapi import APIRouter, Depends, Request, Response
+from fastapi import APIRouter, Response
 
-from app.controller.alarm.get_config import get_config
-from app.controller.alarm.set_config import AlarmConfig, set_config
 from app.core.auth import get_current_user
 
 router = APIRouter()
