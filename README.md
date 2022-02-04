@@ -1,6 +1,6 @@
 ## Description
 
-This is a minimalistic and extensible [FastAPI](https://fastapi.tiangolo.com/) template that incorporates divisional pattern architecture with [divisional folder structure](https://exploreflask.com/en/latest/blueprints.html#divisional). It's suitable for developing small to medium sized API oriented micro-services. The architecture is similar to what you'd get with Flask's [Blueprint](https://exploreflask.com/en/latest/blueprints.html).
+This is a minimalistic and extensible [FastAPI](https://fastapi.tiangolo.com/) template suitable for developing small to medium sized API oriented micro-services.
 
 ## Features
 
@@ -10,11 +10,9 @@ This is a minimalistic and extensible [FastAPI](https://fastapi.tiangolo.com/) t
 
 - Simple reverse-proxying with [Caddy](https://caddyserver.com/docs/).
 
-- OAuth2 (with hashed password and Bearer with JWT) based authentication
+- OAuth2 (with hashed password and Bearer with JWT) based authentication (TODO)
 
 - [CORS (Cross Origin Resource Sharing)](https://fastapi.tiangolo.com/tutorial/cors/) enabled.
-
-- Flask inspired divisional folder structure better decoupling and encapsulation. This is suitable for small to medium backend development.
 
 - Dockerized using [python:3.9-slim-bullseye](https://github.com/docker-library/python/blob/bb68424de76756a2d3dc817f87b1f8640112461f/3.8/bullseye/Dockerfile) and optimized for size and functionality.
 
