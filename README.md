@@ -51,6 +51,12 @@ uvicorn app.main:app --port 5001 --reload
 
 - Hitting the API should give a json response with random integers.
 
+### Update dependencies
+
+run 
+```bash
+./scripts/update_deps.sh
+```
 ## Stack
 
 - [Caddy](https://caddyserver.com/docs/)
