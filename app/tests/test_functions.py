@@ -1,5 +1,5 @@
-from app.apis.api_a.mainmod import main_func as main_func_a
 from app.apis.alarm.get_config import main_func as main_func_b
+from app.apis.api_a.mainmod import main_func as main_func_a
 
 
 def mock_randint(*args, **kwargs):
