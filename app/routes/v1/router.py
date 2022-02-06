@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import os
+import re
 
 from fastapi import APIRouter, Depends, Request, Response
 
-from app.controller.alarm.get_config import get_config
-from app.controller.alarm.set_config import AlarmConfig, set_config
 from app.core.auth import get_current_user
+from app.entities.alarm import AlarmConfigBase
 
 router = APIRouter()
 
@@ -15,14 +15,16 @@ admin_html = os.path.join(os.path.dirname(__file__), "templates", "admin.html")
 
 @router.get("/alarm/", tags=["alarm"])
 async def get_alarm_config(
+    request: Request,
     # auth: Depends = Depends(get_current_user),    // TODO: fix auth flow
 ) -> dict[str, int]:
-    return get_config()
+    return await request.app.alarm_controller.get()
 
 
 @router.post("/alarm/", tags=["alarm"])
 async def set_alarm_config(
-    config: AlarmConfig,
+    request: Request,
+    config: AlarmConfigBase,
     # auth: Depends = Depends(get_current_user),    // TODO: fix auth flow
 ) -> dict[str, int]:
-    return set_config(config)
+    return await request.app.alarm_controller.create(config)
