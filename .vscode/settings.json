@@ -1,0 +1,12 @@
+{
+  "cSpell.words": [
+    "dotenv",
+    "httpx",
+    "pydantic"
+  ],
+  "python.testing.pytestArgs": [
+    "."
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}

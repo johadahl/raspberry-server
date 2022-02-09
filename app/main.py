@@ -26,11 +26,3 @@ app.include_router(auth.router)
 app.include_router(root_router.router)
 app.include_router(v1_router.router, prefix="/v1")
 
-# @app.post("/v1/alarm/test", response_model=bool)
-# def create_alarm_config(
-#     config: schemas.AlarmConfigBase
-# ):
-#     complete_config = schemas.AlarmConfig(**config.dict(), id=randint(0,100), timestamp=datetime.datetime.now())
-#     print(complete_config)
-#     return crud.create_alarm_config(db=app.db, alarm_config=complete_config)
-

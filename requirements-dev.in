@@ -4,5 +4,6 @@ flake8
 mypy
 pip-tools
 pytest
+pytest-asyncio
 requests # Required by fastapi-test.
 httpx 
