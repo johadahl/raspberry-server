@@ -31,3 +31,8 @@ async def test_get_config(test_client):
         "isAlarmOn": True,
     }
 
+@pytest.mark.asyncio
+async def test_post_config(test_client):
+    response = await test_client.post("/v1/alarm/", json={"active": "False", "time": "10:00"})
+    assert response.status_code == HTTPStatus.OK
+    assert response.text == "true"
