@@ -4,8 +4,6 @@
 #
 #    pip-compile --output-file=requirements-dev.txt requirements-dev.in
 #
---index-url https://pypi.python.org/simple/
-
 anyio==3.5.0
     # via httpcore
 attrs==21.4.0
@@ -74,7 +72,7 @@ pytest==7.0.0
     # via
     #   -r requirements-dev.in
     #   pytest-asyncio
-pytest-asyncio==0.18.0
+pytest-asyncio==0.18.1
     # via -r requirements-dev.in
 requests==2.27.1
     # via -r requirements-dev.in
@@ -92,9 +90,7 @@ tomli==2.0.1
     #   pep517
     #   pytest
 typing-extensions==4.0.1
-    # via
-    #   black
-    #   mypy
+    # via mypy
 urllib3==1.26.8
     # via requests
 wheel==0.37.1
