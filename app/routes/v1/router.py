@@ -18,7 +18,8 @@ async def get_alarm_config(
     request: Request,
     # auth: Depends = Depends(get_current_user),    // TODO: fix auth flow
 ) -> dict[str, int]:
-    return await request.app.alarm_controller.get()
+    res = await request.app.alarm_controller.get()
+    return res
 
 
 @router.post("/alarm/", tags=["alarm"])
@@ -27,4 +28,4 @@ async def set_alarm_config(
     config: AlarmConfigBase,
     # auth: Depends = Depends(get_current_user),    // TODO: fix auth flow
 ) -> dict[str, int]:
-    return await request.app.alarm_controller.create(config)
+    return await request.app.alarm_controller.update(config)
