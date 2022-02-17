@@ -49,7 +49,7 @@ uvicorn app.main:app --port 5001 --reload
 
 - Then select any of the `api_a` or `api_b` APIs and put an integer in the number box and click the `authorize` button.
 
-- Hitting the API should give a json response with random integers.
+- Hitting the API should give a json response.
 
 ### Update dependencies
 

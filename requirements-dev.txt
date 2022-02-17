@@ -4,6 +4,8 @@
 #
 #    pip-compile --output-file=requirements-dev.txt requirements-dev.in
 #
+--index-url https://pypi.python.org/simple/
+
 anyio==3.5.0
     # via httpcore
 attrs==21.4.0
@@ -15,7 +17,7 @@ certifi==2021.10.8
     #   httpcore
     #   httpx
     #   requests
-charset-normalizer==2.0.11
+charset-normalizer==2.0.12
     # via
     #   httpx
     #   requests
@@ -56,7 +58,7 @@ pep517==0.12.0
     # via pip-tools
 pip-tools==6.5.1
     # via -r requirements-dev.in
-platformdirs==2.4.1
+platformdirs==2.5.0
     # via black
 pluggy==1.0.0
     # via pytest
@@ -89,8 +91,10 @@ tomli==2.0.1
     #   mypy
     #   pep517
     #   pytest
-typing-extensions==4.0.1
-    # via mypy
+typing-extensions==4.1.1
+    # via
+    #   black
+    #   mypy
 urllib3==1.26.8
     # via requests
 wheel==0.37.1
