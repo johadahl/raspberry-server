@@ -8,6 +8,8 @@
 
 anyio==3.3.2
     # via starlette
+apscheduler==3.9.0.post1
+    # via -r requirements.in
 asgiref==3.4.1
     # via uvicorn
 bcrypt==3.2.0
@@ -40,8 +42,13 @@ python-dotenv==0.19.2
     # via -r requirements.in
 python-multipart==0.0.5
     # via -r requirements.in
+pytz==2021.3
+    # via apscheduler
+pytz-deprecation-shim==0.1.0.post0
+    # via tzlocal
 six==1.16.0
     # via
+    #   apscheduler
     #   bcrypt
     #   python-multipart
 sniffio==1.2.0
@@ -52,8 +59,10 @@ starlette==0.17.1
     # via fastapi
 typing-extensions==3.10.0.2
     # via pydantic
+tzdata==2021.5
+    # via pytz-deprecation-shim
+tzlocal==4.1
+    # via apscheduler
 uvicorn==0.17.5
     # via -r requirements.in
 
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
