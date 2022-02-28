@@ -16,5 +16,6 @@ DEBUG = getenv('DEBUG') == '1'
 DATABASE_URL = getenv('DATABASE_URL')
 DATABASE_NAME = getenv('DATABASE_NAME')
 
+CRON_ID = getenv('CRON_ID', '1')
 
 # TODO: Replace this with app.core.config instead

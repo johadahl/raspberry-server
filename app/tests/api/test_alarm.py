@@ -15,7 +15,7 @@ from app.main import app as app_
 async def app():
     app_.db = MagicMock()
     app_.alarm_repository = AsyncMock()
-    await init_controllers(app_)
+    init_controllers(app_)
     return app_
 
 
