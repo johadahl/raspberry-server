@@ -20,8 +20,8 @@ app.add_middleware(
 async def startup():
     await db.boot(app)
     init_app.init_repositories(app)
-    init_app.init_controllers(app)
     await init_app.init_scheduler(app)
+    init_app.init_controllers(app)
 
 app.include_router(auth.router)
 app.include_router(root_router.router)
