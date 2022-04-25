@@ -16,14 +16,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.on_event('startup')
+
+@app.on_event("startup")
 async def startup():
     await db.boot(app)
     init_app.init_repositories(app)
     await init_app.init_scheduler(app)
     init_app.init_controllers(app)
 
+
 app.include_router(auth.router)
 app.include_router(root_router.router)
 app.include_router(v1_router.router, prefix="/v1")
-

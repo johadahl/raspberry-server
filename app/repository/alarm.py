@@ -1,14 +1,15 @@
 import logging
-from sqlalchemy.orm import Session
+
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
-
+from app.entities.alarm import AlarmConfig
 from app.repository.models import AlarmConfig as AlarmModel
-from app.entities.alarm  import AlarmConfig
 
 logger = logging.getLogger(__name__)
 
-class AlarmRepository():
+
+class AlarmRepository:
     _db: Session
 
     def __init__(self, db: Session):
@@ -16,7 +17,7 @@ class AlarmRepository():
 
     async def get(self, alarm_id: int):
         statement = select(AlarmModel).filter_by(id=alarm_id)
-        res = self._db.execute(statement).scalars().first()        
+        res = self._db.execute(statement).scalars().first()
         return res
 
     async def create(self, config: AlarmConfig):
@@ -27,7 +28,7 @@ class AlarmRepository():
         return config
 
     async def update(self, config: AlarmConfig):
-        x =  self._db.query(AlarmModel).get(config.id)
+        x = self._db.query(AlarmModel).get(config.id)
         x.time = config.time
         x.active = config.active
         x.timestamp = config.timestamp
