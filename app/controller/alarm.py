@@ -22,7 +22,7 @@ class AlarmController:
         self.alarm_repository = alarm_repository
         self.scheduler = scheduler
 
-    async def update(self, config: AlarmConfigBase) -> AlarmConfig:
+    async def update(self, config: AlarmConfig) -> AlarmConfig:
         new_config = AlarmConfig(
             time=config.time, active=config.active, id=1, timestamp=datetime.now()
         )

@@ -6,7 +6,7 @@ import re
 from fastapi import APIRouter, Depends, Request, Response
 
 from app.core.auth import get_current_user
-from app.entities.alarm import AlarmConfigBase
+from app.entities.alarm import AlarmConfig
 
 router = APIRouter()
 
@@ -25,7 +25,7 @@ async def get_alarm_config(
 @router.post("/alarm/", tags=["alarm"])
 async def set_alarm_config(
     request: Request,
-    config: AlarmConfigBase,
+    config: AlarmConfig,
     # auth: Depends = Depends(get_current_user),    // TODO: fix auth flow
 ) -> dict[str, int]:
     return await request.app.alarm_controller.update(config)
