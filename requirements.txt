@@ -16,7 +16,7 @@ cffi==1.14.6
     # via bcrypt
 click==8.0.1
     # via uvicorn
-fastapi==0.74.1
+fastapi==0.76.0
     # via -r requirements.in
 greenlet==1.1.2
     # via sqlalchemy
@@ -53,7 +53,7 @@ sniffio==1.2.0
     # via anyio
 sqlalchemy==1.4.31
     # via -r requirements.in
-starlette==0.17.1
+starlette==0.18.0
     # via fastapi
 typing-extensions==3.10.0.2
     # via pydantic
