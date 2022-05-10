@@ -61,5 +61,5 @@ tzdata==2021.5
     # via pytz-deprecation-shim
 tzlocal==4.1
     # via apscheduler
-uvicorn==0.17.5
+uvicorn==0.17.6
     # via -r requirements.in
