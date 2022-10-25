@@ -1,6 +1,6 @@
 ## Description
 
-This is a minimalistic and extensible [FastAPI](https://fastapi.tiangolo.com/) template suitable for developing small to medium sized API oriented micro-services.
+This is a small [FastAPI](https://fastapi.tiangolo.com/) server for managing the state of my alarm clock running on a Raspberry Pi.
 
 ## Features
 
@@ -11,8 +11,6 @@ This is a minimalistic and extensible [FastAPI](https://fastapi.tiangolo.com/) t
 - Simple reverse-proxying with [Caddy](https://caddyserver.com/docs/).
 
 - OAuth2 (with hashed password and Bearer with JWT) based authentication (TODO)
-
-- [CORS (Cross Origin Resource Sharing)](https://fastapi.tiangolo.com/tutorial/cors/) enabled.
 
 - Dockerized using [python:3.9-slim-bullseye](https://github.com/docker-library/python/blob/bb68424de76756a2d3dc817f87b1f8640112461f/3.8/bullseye/Dockerfile) and optimized for size and functionality.
 
@@ -31,25 +29,11 @@ docker compose up -d
 or if you want to run the application locally, without using Docker, then:
 
 ```bash
-python3.9 -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt && pip install -r requirements-dev.txt
 uvicorn app.main:app --port 5001 --reload
 ```
-
-### Check the APIs
-
-- To play around with the APIs, go to the following link on your browser:
-
-  ```
-  http://localhost:5001/docs
-  ```
-
-- Press the `authorize` button on the right and add _username_ and _password_. The APIs use OAuth2 (with hashed password and Bearer with JWT) based authentication. In this case, the username and password is `ubuntu` and `debian` respectively.
-
-- Then select any of the `api_a` or `api_b` APIs and put an integer in the number box and click the `authorize` button.
-
-- Hitting the API should give a json response.
 
 ### Update dependencies
 
@@ -70,8 +54,3 @@ run
 - [Starlette](https://www.starlette.io/)
 - [Uvicorn](https://www.uvicorn.org/)
 
-## Resources
-
-- [Deploying APIs built with FastAPI](https://fastapi.tiangolo.com/deployment/)
-- [Reverse proxying with Caddy](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy)
-- [Dockerised Flask app template](https://github.com/rednafi/fastapi-nano)
