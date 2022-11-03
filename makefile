@@ -98,3 +98,7 @@ kill-container: ## Stop the running docker container.
 .PHONY: run-local
 run-local: ## Run the app locally.
 	uvicorn app.main:app --port 5001 --reload
+
+.PHONY: source
+source: 
+  source .venv/bin/activate
