@@ -3,10 +3,11 @@ from __future__ import annotations
 import os
 import re
 
-from fastapi import APIRouter, Depends, Request, Response
+from fastapi import APIRouter, Request, Depends, Response
 
-from app.core.auth import get_current_user
+# from app.core.auth import get_current_user
 from app.entities.alarm import AlarmConfig
+from app.utils.servo import ring_once
 
 router = APIRouter()
 
@@ -29,3 +30,7 @@ async def set_alarm_config(
     # auth: Depends = Depends(get_current_user),    // TODO: fix auth flow
 ) -> dict[str, int]:
     return await request.app.alarm_controller.update(config)
+
+@router.put("/ring/", tags=["alarm"])
+async def ring_bell():
+    await ring_once()

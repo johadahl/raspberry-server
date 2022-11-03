@@ -3,11 +3,7 @@ from apscheduler.triggers.cron import CronTrigger
 
 from app import settings
 from app.entities.alarm import AlarmConfig
-
-
-def some_job():
-    print("Hello World!")
-
+from app.utils.servo import ring_bell
 
 def set_schedule(config: AlarmConfig, scheduler: BackgroundScheduler):
     job = scheduler.get_job(settings.CRON_ID)
@@ -17,7 +13,7 @@ def set_schedule(config: AlarmConfig, scheduler: BackgroundScheduler):
 
     if config.active:
         if job is None:
-            scheduler.add_job(some_job, trigger, id=settings.CRON_ID)
+            scheduler.add_job(ring_bell, trigger, id=settings.CRON_ID)
         else:
             job.reschedule(trigger)
         return
