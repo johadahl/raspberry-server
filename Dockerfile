@@ -9,6 +9,9 @@ ENV PYTHONBUFFERED 1
 # set working directory
 WORKDIR /code
 
+# installs missing dependencies
+RUN apt-get update && apt-get install -y gcc libffi-dev g++
+
 # copy dependencies
 COPY requirements.txt /code/
 
