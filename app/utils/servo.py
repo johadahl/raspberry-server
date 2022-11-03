@@ -4,6 +4,7 @@ from time import sleep
 SERVO_PIN = 17
 
 def ring_once():
+    print("TIME FOR AN ALARM")
     s = AngularServo(17, initial_angle=0)
     while True:
         sleep(2)

@@ -19,3 +19,4 @@ gunicorn
 sqlalchemy
 pydantic
 apscheduler
+gpiozero

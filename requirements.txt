@@ -63,3 +63,4 @@ tzlocal==4.1
     # via apscheduler
 uvicorn==0.17.5
     # via -r requirements.in
+gpiozero==1.6.2
