@@ -64,3 +64,4 @@ tzlocal==4.1
 uvicorn==0.17.5
     # via -r requirements.in
 gpiozero==1.6.2
+rpi-gpio==0.7.0

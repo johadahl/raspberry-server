@@ -3,6 +3,7 @@ services:
   fnano:
     container_name: fnano
     restart: unless-stopped
+    privileged: true
     env_file:
       - .env
     build:
@@ -26,6 +27,7 @@ services:
     image: caddy:2-alpine
     container_name: caddy
     restart: unless-stopped
+    privileged: true
     env_file:
       - .env
     ports:
