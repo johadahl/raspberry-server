@@ -7,7 +7,7 @@ from fastapi import APIRouter, Request, Depends, Response
 
 # from app.core.auth import get_current_user
 from app.entities.alarm import AlarmConfig
-from app.utils.servo import ring_once
+from app.utils.servo import ring_bell
 
 router = APIRouter()
 
@@ -32,5 +32,5 @@ async def set_alarm_config(
     return await request.app.alarm_controller.update(config)
 
 @router.put("/ring/", tags=["alarm"])
-async def ring_bell():
-    await ring_once()
+async def ring():
+    await ring_bell()
