@@ -1,9 +1,7 @@
 import logging
 from datetime import datetime
-from random import randrange
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from fastapi import Request
 
 from app.entities.alarm import AlarmConfig, AlarmConfigBase
 from app.repository.alarm import AlarmRepository

@@ -8,7 +8,9 @@ from app.utils.servo import ring_bell
 def set_schedule(config: AlarmConfig, scheduler: BackgroundScheduler):
     job = scheduler.get_job(settings.CRON_ID)
     trigger = CronTrigger(
-        hour=config.time.split(":")[0], minute=config.time.split(":")[1]
+        hour=config.time.split(":")[0], 
+        minute=config.time.split(":")[1],
+        timezone='Europe/Berlin'
     )
 
     if config.active:
