@@ -67,3 +67,4 @@ dmypy.json
 
 # Repository
 sql_app.db
+./sql_app.db

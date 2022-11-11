@@ -5,11 +5,13 @@ from app import settings
 from app.entities.alarm import AlarmConfig
 from app.utils.servo import ring_bell
 
+SNOOZE = 2 # minutes
+
 def set_schedule(config: AlarmConfig, scheduler: BackgroundScheduler):
     job = scheduler.get_job(settings.CRON_ID)
     trigger = CronTrigger(
-        hour=config.time.split(":")[0], 
-        minute=config.time.split(":")[1],
+        hour=str(config.time.split(":")[0], + "-23"), 
+        minute=str(config.time.split(":")[1], + "-59/" + SNOOZE),
         timezone='Europe/Berlin'
     )
 
