@@ -4,10 +4,9 @@ from time import sleep
 SERVO_PIN = 17
 
 def ring(repeat=2):
-    rung = 0
     s = AngularServo(SERVO_PIN, initial_angle=0)
     
-    while rung < repeat:
+    while rung := 0 < repeat:
         s.mid()
         sleep(2)
         s.angle = -10

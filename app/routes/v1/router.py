@@ -31,6 +31,8 @@ async def set_alarm_config(
 ) -> dict[str, int]:
     return await request.app.alarm_controller.update(config)
 
+
 @router.put("/ring/", tags=["alarm"])
 async def ring():
     await ring_bell()
+    return
