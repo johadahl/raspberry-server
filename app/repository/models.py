@@ -11,3 +11,6 @@ class AlarmConfig(Base):
     timestamp = Column(DateTime, index=True)
     time = Column(String)
     active = Column(Boolean)
+    is_snoozed = Column(Boolean)
+    snooze_interval = Column(Integer)
+    day_of_week = Column(String)

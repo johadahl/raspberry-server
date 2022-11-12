@@ -32,5 +32,8 @@ class AlarmRepository:
         x.time = config.time
         x.active = config.active
         x.timestamp = config.timestamp
+        x.is_snoozed = config.is_snoozed
+        x.snooze_interval = config.snooze_interval
+        x.day_of_week = config.day_of_week
         self._db.commit()
         return config

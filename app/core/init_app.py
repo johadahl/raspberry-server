@@ -12,7 +12,7 @@ def init_repositories(app):
 async def init_scheduler(app):
     scheduler = BackgroundScheduler()
     config = await app.alarm_repository.get(alarm_id=1)
-    set_schedule(config, scheduler)
+    if config: set_schedule(config, scheduler)
     scheduler.start()
     app.scheduler = scheduler
 

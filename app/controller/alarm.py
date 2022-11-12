@@ -3,7 +3,7 @@ from datetime import datetime
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from app.entities.alarm import AlarmConfig, AlarmConfigBase
+from app.entities.alarm import AlarmConfig
 from app.repository.alarm import AlarmRepository
 from app.utils.scheduler import set_schedule
 
@@ -22,7 +22,13 @@ class AlarmController:
 
     async def update(self, config: AlarmConfig) -> AlarmConfig:
         new_config = AlarmConfig(
-            time=config.time, active=config.active, id=DEFAULT_ALARM_ID, timestamp=datetime.now()
+            id=DEFAULT_ALARM_ID, 
+            timestamp=datetime.now(),
+            time=config.time, 
+            active=config.active, 
+            day_of_week="mon",
+            is_snoozed=True,
+            snooze_interval=5
         )
         existing_config = await self.alarm_repository.get(alarm_id=DEFAULT_ALARM_ID)
         if existing_config is None:
