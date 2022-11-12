@@ -26,9 +26,9 @@ class AlarmController:
             timestamp=datetime.now(),
             time=config.time, 
             active=config.active, 
-            day_of_week="mon",
-            is_snoozed=True,
-            snooze_interval=5
+            day_of_week=config.day_of_week,
+            is_snoozed=config.is_snoozed,
+            snooze_interval=config.snooze_interval
         )
         existing_config = await self.alarm_repository.get(alarm_id=DEFAULT_ALARM_ID)
         if existing_config is None:
