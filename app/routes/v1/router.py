@@ -1,13 +1,13 @@
 from __future__ import annotations
 
+from typing import Union
 import os
-import re
-
+# import re
 from fastapi import APIRouter, Request, Depends, Response
 
 # from app.core.auth import get_current_user
 from app.entities.alarm import AlarmConfig
-from app.utils.servo import ring_bell
+# from app.utils.servo import ring_bell
 
 router = APIRouter()
 
@@ -32,7 +32,11 @@ async def set_alarm_config(
     return await request.app.alarm_controller.update(config)
 
 
-@router.put("/ring/", tags=["alarm"])
-async def ring():
-    await ring_bell()
-    return
+@router.patch("/alarm/{id}", tags=["alarm"])
+async def snooze(
+    request: Request,
+    id: int = 1,
+    snooze: Union[bool, None] = None, 
+):
+    if snooze is None: return
+    return await request.app.alarm_controller.snooze(id, snooze)

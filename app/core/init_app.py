@@ -1,4 +1,4 @@
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from app.controller.alarm import AlarmController
 from app.repository.alarm import AlarmRepository
@@ -10,7 +10,7 @@ def init_repositories(app):
 
 
 async def init_scheduler(app):
-    scheduler = BackgroundScheduler()
+    scheduler = AsyncIOScheduler()
     config = await app.alarm_repository.get(alarm_id=1)
     if config: set_schedule(config, scheduler)
     scheduler.start()

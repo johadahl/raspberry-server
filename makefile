@@ -101,4 +101,4 @@ run-local: ## Run the app locally.
 
 .PHONY: source
 source: 
-  source .venv/bin/activate
+	source .venv/bin/activate

@@ -26,3 +26,16 @@ async def boot(app):
             "Unknown error occurred while trying to establish to database connection",
             exc_info=exc,
         )
+
+async def db_connect():
+    try:
+        engine = create_engine(
+            settings.DATABASE_URL, connect_args={"check_same_thread": False}
+        )
+        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        return SessionLocal()
+    except Exception as exc:
+            logger.critical(
+                "Unknown error occurred while trying to establish to database connection",
+                exc_info=exc,
+            )

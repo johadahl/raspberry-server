@@ -18,4 +18,4 @@ DATABASE_NAME = getenv("DATABASE_NAME")
 
 CRON_ID = getenv("CRON_ID", "1")
 
-# TODO: Replace this with app.core.config instead
+DEFAULT_ALARM_ID = 1
