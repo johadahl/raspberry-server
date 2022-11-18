@@ -3,6 +3,7 @@ Settings
 """
 
 from os import getenv
+from pytz import timezone
 
 TITLE = "Rasperry Pi Server"
 
@@ -19,3 +20,8 @@ DATABASE_NAME = getenv("DATABASE_NAME")
 CRON_ID = getenv("CRON_ID", "1")
 
 DEFAULT_ALARM_ID = 1
+
+REDIS_URI = getenv("REDIS_URI", "redis://redis:6379")
+
+TZ_INFO = 'Europe/Berlin'
+TZ = timezone(TZ_INFO)

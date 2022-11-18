@@ -19,10 +19,22 @@ services:
       - |
         gunicorn app.main:app --workers 2 \
         --worker-class uvicorn.workers.UvicornWorker -b 0.0.0.0:6969
-
     ports:
       - 6969:6969
 
+  redis:
+    image: redis:7.0.5-bullseye
+    ports:
+      - 6379:6379
+  # worker:
+  #   build: .
+  #   command: celery --app ride.core.celery worker --loglevel=info
+  #   environment:
+  #     - REDIS_URI=redis://redis:6379
+  #   depends_on:
+  #     - redis
+  #   env_file:
+  #     - .env 
   caddy:
     image: caddy:2-alpine
     container_name: caddy

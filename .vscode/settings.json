@@ -3,7 +3,8 @@
     "apscheduler",
     "dotenv",
     "httpx",
-    "pydantic"
+    "pydantic",
+    "pytz"
   ],
   "python.testing.pytestArgs": [
     "."

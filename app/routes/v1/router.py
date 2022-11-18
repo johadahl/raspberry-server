@@ -36,7 +36,10 @@ async def set_alarm_config(
 async def snooze(
     request: Request,
     id: int = 1,
-    snooze: Union[bool, None] = None, 
+    snooze: Union[bool, None] = None,
+    reset: Union[bool, None] = None,
 ):
-    if snooze is None: return
-    return await request.app.alarm_controller.snooze(id, snooze)
+    if snooze is not None: 
+        return await request.app.alarm_controller.snooze(id, snooze)
+    if reset is not None:
+        return await request.app.alarm_controller.reset(id, snooze)

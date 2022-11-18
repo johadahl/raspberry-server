@@ -1,29 +1,24 @@
+from datetime import datetime, timedelta
 from time import sleep
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from app.core.db import db_connect
-from app.repository.alarm import AlarmRepository
 from app.entities.alarm import AlarmConfig
 from app import settings
 
 async def alarm_trigger():
-    db = AlarmRepository(db=await db_connect())
-    current_alarm = await db.get(alarm_id=settings.DEFAULT_ALARM_ID)
-    if current_alarm is None or current_alarm.is_snoozed: return
-    
-    print("alarm triggered: ", current_alarm.dict())
-    # ring_once()
-    sleep(10)
+    # Redis -> alarm_on:True
     print("Ring ring")
-    return
+    sleep(5)
 
 def set_schedule(config: AlarmConfig, scheduler: AsyncIOScheduler):
     job = scheduler.get_job(settings.CRON_ID)
     trigger = CronTrigger(
-        hour=config.time.split(":")[0], 
-        # minute="{}-59/{}".format(config.time.split(":")[1], config.snooze_interval),
-        minute=config.time.split(":")[1],
+        hour="{}-23".format(config.time.split(":")[0]), 
+        # hour=config.time.split(":")[0], 
+        minute="{}-59".format(config.time.split(":")[1]),
+        # minute=config.time.split(":")[1],
         timezone='Europe/Berlin'
     )
 
@@ -36,3 +31,14 @@ def set_schedule(config: AlarmConfig, scheduler: AsyncIOScheduler):
 
     if job is not None:
         scheduler.remove_job(settings.CRON_ID)
+
+
+def snooze(config: AlarmConfig, scheduler: AsyncIOScheduler):
+    job = scheduler.get_job(settings.CRON_ID)
+    new_trigger = CronTrigger(
+        hour=datetime.now(tz=settings.TZ).hour, 
+        minute=(datetime.now(tz=settings.TZ) + timedelta(minutes=5)).minute,
+        timezone='Europe/Berlin'
+    )
+    job.reschedule(new_trigger)
+    # redis -> alarm_on:False
