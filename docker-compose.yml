@@ -23,6 +23,7 @@ services:
       - 6969:6969
 
   redis:
+    container_name: redis
     image: redis:7.0.5-bullseye
     ports:
       - 6379:6379

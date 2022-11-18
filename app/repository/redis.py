@@ -1,27 +1,23 @@
 import logging
 from dataclasses import dataclass
-from dataclasses import field
 
-import aioredis
+import redis
 
 logger = logging.getLogger(__name__)
 
 @dataclass
-class Redis:
-    url: str
-    pool: aioredis.commands.Redis = field(default=None, init=False)
+class RedisRepository:
+    connection: redis.Redis
 
-    async def init(self):
-        self.pool = await aioredis.create_redis_pool(address=self.url)
-        logger.info('Redis connection succeeded')
+    def __init__(self, url: str): 
+        self.connection = redis.Redis(url)
 
-    async def shutdown(self):
-        self.pool.close()
-        await self.pool.wait_closed()
+    async def disconnect(self):
+        self.connection.disconnect()
 
-    async def set_active(self):
-        await self.pool.set(key=f'active', value=True)
+    def set_active(self):
+        self.connection.set('active', 1)
 
-    async def set_inactive(self):
-        await self.pool.set(key=f'active', value=False)
+    def set_inactive(self):
+        self.connection.set('active', 0)
 

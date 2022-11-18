@@ -3,7 +3,6 @@ from time import sleep
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from app.core.db import db_connect
 from app.entities.alarm import AlarmConfig
 from app import settings
 

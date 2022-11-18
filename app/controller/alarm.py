@@ -6,6 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from app.entities.alarm import AlarmConfig
 from app.repository.alarm import AlarmRepository
+from app.repository.redis import RedisRepository
 from app.utils.scheduler import set_schedule
 from app.utils.scheduler import snooze
 from app import settings
@@ -15,12 +16,17 @@ logger = logging.getLogger(__name__)
 class AlarmController:
     alarm_repository: AlarmRepository
     scheduler: AsyncIOScheduler
+    redis: RedisRepository
 
     def __init__(
-        self, alarm_repository: AlarmRepository, scheduler: AsyncIOScheduler
+        self, 
+        alarm_repository: AlarmRepository, 
+        scheduler: AsyncIOScheduler,
+        redis: RedisRepository
     ):
         self.alarm_repository = alarm_repository
         self.scheduler = scheduler
+        self.redis = redis
 
     async def update(self, config: AlarmConfig) -> AlarmConfig:
         new_config = AlarmConfig(
@@ -49,6 +55,7 @@ class AlarmController:
         # if alarm is None or alarm.is_snoozed == state: return None
         # alarm.is_snoozed = state
         # await self.alarm_repository.update(alarm)
+        self.redis.set_active()
         return config
 
     async def reset(self, id: int, state: bool) -> Union[AlarmConfig, None]:

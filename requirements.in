@@ -20,4 +20,4 @@ sqlalchemy
 pydantic
 apscheduler
 gpiozero
-aioredis
+redis
