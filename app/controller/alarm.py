@@ -8,7 +8,7 @@ from app.entities.alarm import AlarmConfig
 from app.repository.alarm import AlarmRepository
 from app.repository.redis import RedisRepository
 from app.utils.scheduler import set_schedule
-from app.utils.scheduler import snooze
+from app.celery.app import ring_bell
 from app import settings
 
 logger = logging.getLogger(__name__)
@@ -51,11 +51,12 @@ class AlarmController:
 
     async def snooze(self, id: int, state: bool) -> Union[AlarmConfig, None]:
         config = await self.alarm_repository.get(alarm_id=id)
-        snooze(config=config, scheduler=self.scheduler)
+        ring_bell.delay()
+        # snooze(config=config, scheduler=self.scheduler)
         # if alarm is None or alarm.is_snoozed == state: return None
         # alarm.is_snoozed = state
         # await self.alarm_repository.update(alarm)
-        self.redis.set_active()
+        # self.redis.set_active()
         return config
 
     async def reset(self, id: int, state: bool) -> Union[AlarmConfig, None]:

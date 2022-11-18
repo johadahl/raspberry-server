@@ -27,15 +27,16 @@ services:
     image: redis:7.0.5-bullseye
     ports:
       - 6379:6379
-  # worker:
-  #   build: .
-  #   command: celery --app ride.core.celery worker --loglevel=info
-  #   environment:
-  #     - REDIS_URI=redis://redis:6379
-  #   depends_on:
-  #     - redis
-  #   env_file:
-  #     - .env 
+  worker:
+    container_name: celery-worker
+    build: .
+    command: celery -A app.celery worker --loglevel=INFO
+    environment:
+      - REDIS_URI=redis://redis:6379
+    depends_on:
+      - redis
+    env_file:
+      - .env 
   caddy:
     image: caddy:2-alpine
     container_name: caddy
