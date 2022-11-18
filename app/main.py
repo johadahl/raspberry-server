@@ -22,7 +22,6 @@ async def startup():
     await db.boot(app)
     init_app.init_repositories(app)
     await init_app.init_scheduler(app)
-    init_app.init_redis(app)
     init_app.init_controllers(app)
 
 # TODO: @app.on_event("shutdown")
