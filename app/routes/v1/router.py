@@ -40,6 +40,6 @@ async def snooze(
     reset: Union[bool, None] = None,
 ):
     if snooze is not None: 
-        return await request.app.alarm_controller.snooze(id, snooze)
+        return await request.app.alarm_controller.snooze(snooze, id)
     if reset is not None:
-        return await request.app.alarm_controller.reset(id, snooze)
+        return await request.app.alarm_controller.reset(snooze, id)

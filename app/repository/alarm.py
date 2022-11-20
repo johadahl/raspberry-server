@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.entities.alarm import AlarmConfig
 from app.repository.models import AlarmConfig as AlarmModel
+from app import settings
 
 logger = logging.getLogger(__name__)
 
@@ -45,3 +46,10 @@ class AlarmRepository:
         x.day_of_week = config.day_of_week
         self._db.commit()
         return config
+
+    async def set_snooze(self, state: bool, id: int = settings.DEFAULT_ALARM_ID) -> bool:
+        x = self._db.query(AlarmModel).get(id)
+        print("SET SNOOZE TO: ", x.is_snoozed)
+        x.is_snoozed = state
+        self._db.commit()
+        return state

@@ -14,10 +14,11 @@ PORT = int(getenv("PORT", "8080"))
 HOST = getenv("HOST")
 DEBUG = getenv("DEBUG") == "1"
 
-DATABASE_URL = getenv("DATABASE_URL")
+DATABASE_URL = getenv("DATABASE_URL", "sqlite:///./sql_app.db")
 DATABASE_NAME = getenv("DATABASE_NAME")
 
-CRON_ID = getenv("CRON_ID", "1")
+CRON_ALARM_ID = getenv("CRON_ALARM_ID", "1")
+CRON_SNOOZE_ID = getenv("CRON_SNOOZE_ID", "2")
 
 DEFAULT_ALARM_ID = 1
 

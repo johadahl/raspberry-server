@@ -2,7 +2,7 @@ version: "3.9"
 services:
   fnano:
     container_name: fnano
-    restart: unless-stopped
+    restart: always
     privileged: true
     env_file:
       - .env
@@ -24,11 +24,13 @@ services:
 
   redis:
     container_name: redis
+    restart: always
     image: redis:7.0.5-bullseye
     ports:
       - 6379:6379
   worker:
     container_name: celery-worker
+    restart: always
     build: .
     command: celery -A app.celery worker --loglevel=INFO
     environment:
@@ -40,7 +42,7 @@ services:
   caddy:
     image: caddy:2-alpine
     container_name: caddy
-    restart: unless-stopped
+    restart: always
     privileged: true
     env_file:
       - .env

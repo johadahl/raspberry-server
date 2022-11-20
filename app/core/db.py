@@ -16,10 +16,8 @@ async def boot(app):
         )
 
         models.Base.metadata.create_all(bind=engine)
-
-        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-        app.db = SessionLocal()
+        local_session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        app.db = local_session()
 
     except Exception as exc:
         logger.critical(
@@ -32,8 +30,8 @@ async def db_connect():
         engine = create_engine(
             settings.DATABASE_URL, connect_args={"check_same_thread": False}
         )
-        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-        return SessionLocal()
+        local_session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        return local_session()
     except Exception as exc:
             logger.critical(
                 "Unknown error occurred while trying to establish to database connection",

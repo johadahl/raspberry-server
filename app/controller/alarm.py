@@ -6,8 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from app.entities.alarm import AlarmConfig
 from app.repository.alarm import AlarmRepository
-from app.utils.scheduler import set_schedule
-from app.celery.app import ring_bell
+from app.utils.scheduler import set_schedule, set_snooze
 from app import settings
 
 logger = logging.getLogger(__name__)
@@ -45,12 +44,22 @@ class AlarmController:
     async def get(self) -> Union[AlarmConfig, None]:
         return await self.alarm_repository.get(alarm_id=settings.DEFAULT_ALARM_ID)
 
-    async def snooze(self, id: int, state: bool) -> Union[AlarmConfig, None]:
+    async def snooze(self, state: bool, id: int = settings.DEFAULT_ALARM_ID) -> Union[AlarmConfig, None]:        
+        await self.alarm_repository.set_snooze(state)
         config = await self.alarm_repository.get(alarm_id=id)
-        ring_bell.delay()
-        return config
+        print("UPDATED CONFIG: ", config)
+        # if config is None or config.is_snoozed == state: return
+        
 
-    async def reset(self, id: int, state: bool) -> Union[AlarmConfig, None]:
+        # if state == False: return state 
+
+        # set_snooze(self.scheduler, config.snooze_interval)
+
+        return state
+
+    async def reset(self, state: bool, id: int = settings.DEFAULT_ALARM_ID) -> Union[AlarmConfig, None]:
         config = await self.alarm_repository.get(alarm_id=id)
+        self.alarm_repository.set_snooze(True)
+        # TODO: Set is_snoozed 1 minute later
         set_schedule(config=config, scheduler=self.scheduler)
         return config
