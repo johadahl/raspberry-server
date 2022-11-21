@@ -21,7 +21,6 @@ services:
         --worker-class uvicorn.workers.UvicornWorker -b 0.0.0.0:6969
     ports:
       - 6969:6969
-
   redis:
     container_name: redis
     restart: always
@@ -33,6 +32,8 @@ services:
     restart: always
     build: .
     command: celery -A app.celery worker --loglevel=INFO
+    volumes:
+      - .:/code
     environment:
       - REDIS_URI=redis://redis:6379
     depends_on:
@@ -54,7 +55,6 @@ services:
       - $PWD/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-
     depends_on:
       - fnano
 

@@ -11,23 +11,21 @@ app.conf.update(
     timezone=settings.TZ_INFO,
 )
 
-async def test():
+async def bell_loop():
     db = AlarmRepository(db=await db_connect())
     config = await db.get(settings.DEFAULT_ALARM_ID)
-    print("job started, config: ", config.dict())
     if config is None or config.is_snoozed: return
 
     while not config.is_snoozed:
         print("ring ring!")
         sleep(3)
         config = await db.get(settings.DEFAULT_ALARM_ID)
-        print("latest config: ", config)
 
 
 @app.task
 def ring_bell():
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(test())
+    loop.run_until_complete(bell_loop())
 
 @app.task
 async def reset_snooze():
