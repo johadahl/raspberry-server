@@ -1,9 +1,10 @@
 import asyncio
+from time import sleep
+from celery import Celery
 from app.core.db import db_connect
 from app.repository.alarm import AlarmRepository
-from celery import Celery
 from app import settings
-from time import sleep
+from app.utils import servo
 
 app = Celery('tasks', broker=settings.REDIS_URI)
 
@@ -28,18 +29,16 @@ def async_task(fun, **opts):
 
 @async_task
 async def ring_bell():
-    print("Ring alarm task")
     db = AlarmRepository(db=await db_connect())
     config = await db.get(settings.DEFAULT_ALARM_ID)
     if config is None or config.is_snoozed: return
 
     while not config.is_snoozed:
-        print("ring ring!")
+        servo.ring_once()
         sleep(3)
         config = await db.get(settings.DEFAULT_ALARM_ID)
 
 @async_task
 async def reset_snooze():
-    print("Reset snooze task")
     db = AlarmRepository(db=await db_connect())
     await db.set_snooze(False)

@@ -59,7 +59,6 @@ class AlarmController:
     async def reset(self, id: int = settings.DEFAULT_ALARM_ID) -> Union[AlarmConfig, None]:
         config = await self.alarm_repository.get(alarm_id=id)
         # this will break the celery alarm loop
-        self.alarm_repository.set_snooze(True)
-
+        await self.alarm_repository.set_snooze(True)
         reset_schedule(config=config, scheduler=self.scheduler)        
         return config

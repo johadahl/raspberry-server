@@ -14,8 +14,8 @@ async def delay_snooze():
 def set_snooze_schedule(scheduler: AsyncIOScheduler, interval: int):
     scheduler.remove_all_jobs()
     
-    # next = (datetime.now() + timedelta(minutes=interval)).minute
-    next = (datetime.now() + timedelta(minutes=2)).minute
+    next = (datetime.now() + timedelta(minutes=interval)).minute
+    # next = (datetime.now() + timedelta(minutes=2)).minute # For testing
     
     alarm_trigger = CronTrigger(minute=next, timezone='Europe/Berlin')
     snooze_trigger = CronTrigger(minute=next-1, timezone='Europe/Berlin')
