@@ -6,7 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from app.entities.alarm import AlarmConfig
 from app.repository.alarm import AlarmRepository
-from app.utils.scheduler import set_schedule, set_snooze
+from app.utils.scheduler import reset_schedule, set_snooze_schedule
 from app import settings
 
 logger = logging.getLogger(__name__)
@@ -38,28 +38,28 @@ class AlarmController:
             await self.alarm_repository.create(new_config)
         else:
             await self.alarm_repository.update(new_config)
-        set_schedule(config=new_config, scheduler=self.scheduler)
+        reset_schedule(config=new_config, scheduler=self.scheduler)
         return new_config
 
     async def get(self) -> Union[AlarmConfig, None]:
         return await self.alarm_repository.get(alarm_id=settings.DEFAULT_ALARM_ID)
 
     async def snooze(self, state: bool, id: int = settings.DEFAULT_ALARM_ID) -> Union[AlarmConfig, None]:        
-        await self.alarm_repository.set_snooze(state)
         config = await self.alarm_repository.get(alarm_id=id)
-        print("UPDATED CONFIG: ", config)
-        # if config is None or config.is_snoozed == state: return
+        if config is None or config.is_snoozed == state: return
         
+        await self.alarm_repository.set_snooze(state)
 
-        # if state == False: return state 
+        # Only sets snooze schedule if snoozed == True
+        if state == False: return config
+        
+        set_snooze_schedule(self.scheduler, config.snooze_interval)
+        return config
 
-        # set_snooze(self.scheduler, config.snooze_interval)
-
-        return state
-
-    async def reset(self, state: bool, id: int = settings.DEFAULT_ALARM_ID) -> Union[AlarmConfig, None]:
+    async def reset(self, id: int = settings.DEFAULT_ALARM_ID) -> Union[AlarmConfig, None]:
         config = await self.alarm_repository.get(alarm_id=id)
+        # this will break the celery alarm loop
         self.alarm_repository.set_snooze(True)
-        # TODO: Set is_snoozed 1 minute later
-        set_schedule(config=config, scheduler=self.scheduler)
+
+        reset_schedule(config=config, scheduler=self.scheduler)        
         return config

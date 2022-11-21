@@ -49,7 +49,6 @@ class AlarmRepository:
 
     async def set_snooze(self, state: bool, id: int = settings.DEFAULT_ALARM_ID) -> bool:
         x = self._db.query(AlarmModel).get(id)
-        print("SET SNOOZE TO: ", x.is_snoozed)
         x.is_snoozed = state
         self._db.commit()
         return state

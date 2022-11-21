@@ -11,43 +11,33 @@ async def delay_alarm():
 async def delay_snooze():
     reset_snooze.delay()
 
-def set_snooze(scheduler: AsyncIOScheduler, interval: int):
-    snooze_job = scheduler.get_job(settings.CRON_SNOOZE_ID)
-    alarm_job = scheduler.get_job(settings.CRON_ALARM_ID)
+def set_snooze_schedule(scheduler: AsyncIOScheduler, interval: int):
+    scheduler.remove_all_jobs()
     
-    # next_alarm = (datetime.now() + timedelta(minutes=interval)).minute
-    next_alarm = (datetime.now() + timedelta(minutes=1)).minute
+    # next = (datetime.now() + timedelta(minutes=interval)).minute
+    next = (datetime.now() + timedelta(minutes=2)).minute
     
-    alarm_trigger = CronTrigger(minute=next_alarm, timezone='Europe/Berlin')
-    snooze_trigger = CronTrigger(minute=next_alarm-1, timezone='Europe/Berlin')
+    alarm_trigger = CronTrigger(minute=next, timezone='Europe/Berlin')
+    snooze_trigger = CronTrigger(minute=next-1, timezone='Europe/Berlin')
 
-    if snooze_job is None:
-        scheduler.add_job(delay_snooze, snooze_trigger, id=settings.CRON_SNOOZE_ID)
-        return
-    if alarm_job is None:
-        scheduler.add_job(delay_alarm, alarm_trigger, id=settings.CRON_ALARM_ID)
-        return
+    scheduler.add_job(delay_snooze, snooze_trigger, id=settings.CRON_SNOOZE_ID)
+    scheduler.add_job(delay_alarm, alarm_trigger, id=settings.CRON_ALARM_ID)
     
-    snooze_job.reschedule(snooze_trigger)
-    snooze_job.reschedule(alarm_trigger)
+def reset_schedule(config: AlarmConfig, scheduler: AsyncIOScheduler):
+    scheduler.remove_all_jobs()
+    if not config.active: return
 
-def set_schedule(config: AlarmConfig, scheduler: AsyncIOScheduler):
-    job = scheduler.get_job(settings.CRON_ALARM_ID)
+    # set alarm trigger:
     trigger = CronTrigger(
         # hour="{}-23".format(config.time.split(":")[0]), 
         # minute="{}-59".format(config.time.split(":")[1]),
         hour=config.time.split(":")[0], 
         minute=config.time.split(":")[1],
         timezone='Europe/Berlin'
-    )
-    if config.active:
-        if job is None:
-            scheduler.add_job(delay_alarm, trigger, id=settings.CRON_ALARM_ID)
-        else:
-            job.reschedule(trigger)
-        return
-
-    if job is not None:
-        scheduler.remove_job(settings.CRON_ALARM_ID)
-
-
+    ) 
+    scheduler.add_job(delay_alarm, trigger, id=settings.CRON_ALARM_ID)
+    scheduler.add_job(
+        delay_snooze, 
+        next_run_time=datetime.now(tz=settings.TZ)+timedelta(minutes=1), 
+        id=settings.CRON_SNOOZE_ID
+        )
